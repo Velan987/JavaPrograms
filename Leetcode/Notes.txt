@@ -1,0 +1,57 @@
+For palindrome problems:
+    expand around center. 
+    example palindromes - level, radar, noon
+    For each index i, consider:
+    Odd length palindrome → center at i
+    Even length palindrome → center between i and i+1
+    So we expand from the center and track the longest palindrome.
+
+    For each index, treat it as a center and expand in both directions while characters match.
+    Check both odd and even length palindromes and track the maximum length substring.
+
+    in "level" scenario, v is the center and at same time left and right match the chars, if it is not matching that is not palindrome.
+
+Sliding window pattern :
+    suitable for substring, subarray, longest/shortest
+    instead of checking all substrings, maintain a window and slide it accross the array/string
+    We maintain two pointers:
+    left → start of window
+    right → end of window
+
+    Window:
+    [left ........ right]
+
+    We expand the window by moving right.
+    We shrink the window by moving left.
+
+    Longest Substring Without Repeating Characters
+    We keep:
+    Set / Map → characters in current window, left pointer, right pointer
+    String:
+
+    abcabc
+
+    We move right and adjust left.
+
+    Step	Left	Right	Window	Action
+    1	    0	    0	    a	    add
+    2	    0	    1	    ab	    add
+    3	    0	    2	    abc	    add
+    4	    0	    3	    abca	duplicate → move left
+    5	    1	    3	    bca	    valid
+    6	    1	    4	    bcab	duplicate → move left
+    7	    2	    4	    cab	    valid
+    8	    3	    5	    abc 	valid
+
+    Max length = 3
+
+(Read RecusrionMemoizationDynamicProgram.md)
+Recusrion - function calls itself to solve smaller subproblem, Recomputes the same subproblems again and again
+Memoization - Recursion + caching
+    these 2 are top down approach 
+    for example fib(5) will be caluclated like fib(4)+fib(3)+fib(2)+fib(1)
+    calculation will be done from higher to lower
+DynamicProgram - Bottom up approach
+    here we are converting function call to iteration
+    first will start with 0 and go upto n (bottom to top)
+    

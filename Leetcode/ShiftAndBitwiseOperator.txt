@@ -1,0 +1,220 @@
+Shift operator:
+<<   // Left shift
+>>   // Right shift (signed)
+>>>  // Right shift (unsigned)
+
+Bit layout of 32 bit
+[ sign bit ][ remaining 31 bits ]
+0 → positive number
+1 → negative number
+System.out.println(String.format("%32s", Integer.toBinaryString(2147483647)).replace(' ', '0'));
+    01111111111111111111111111111111
+
+Negative numbers are stored as 2's complements.
+n: 2
+    00000000000000000000000000000010
+2's complement is 1's complement plus one
+    11111111111111111111111111111101    -> 1's complement of 2
+                                   1
+    11111111111111111111111111111110    -> 2's complement of 2 which is -2
+Internally this is how numbers will be stored
+
+Sign magnitute:
+11111111111111111111111111111111
+→ sign = 1 (negative)
+→ magnitude = 2147483647
+→ value = -2147483647
+This is called sign-magnitude representation. why cant this approach?
+Two representation of zero
+    00000000...0000 = +0
+    10000000...0000 = -0   ❌
+Arithmatic becomes complicated, example 1-1
+    1  = 000...0001
+    -1 = 100...0001
+Now addition is NOT straightforward:
+You must check signs
+Convert to subtraction
+Handle magnitude manually
+👉 Hardware becomes complex and slow
+
+Why 2's complement:
+Single zero representation
+    000...000 = 0
+    ✔ No ambiguity
+Same hardware for addition and subtraction
+    a - b = a + (2’s complement of b)
+    5 -1
+    00000000000000000000000000000101    5
+    11111111111111111111111111111111    -1
+    00000000000000000000000000000100    carry ignored - same addition logic/hardware used for subtraction
+    CPU only needs one adder circuit
+
+Integer range is -2147483648 to 2147483647
+-2147483648 - binary representation is 10000000000000000000000000000000
+2's complement of -2147483648 is also 10000000000000000000000000000000
+if left most bit is one then negative and its value is 2147483648
+if 10000000000000000000000000000000 this is -2147483648 then why cant we have -2147483649 that is because 10000000000000000000000000000001 is -1.
+that is why in negative most smaller value is -2147483648 and in positive first bit will be zero, so it will be 2147483647
+
+
+How hardware adds numbers
+At the lowest level, CPUs use full adders.
+A 1-bit full adder takes:
+2 input bits (A, B)
+1 carry-in (Cin)
+And produces:
+Sum
+Carry-out
+Logic:
+Sum   = A ⊕ B ⊕ Cin
+Carry = (A & B) | (Cin & (A ⊕ B))
+👉 Chain 32 of these → you get a 32-bit adder
+
+⊕ - XOR gate - if number of 1 is odd then result will be 1 else 0
+& - bitwise AND - if both are one then result is 1 else 0
+| - bitwise OR - if both are zero then 0 else 1
+What a full adder does
+A 1-bit full adder takes three inputs:
+A (bit from first number)
+B (bit from second number)
+Cin (carry from previous/less-significant bit)
+Outputs:
+Sum (result bit at this position)
+Carry (goes to the next higher bit)
+
+Adding positive numbers (easy)
+Example:
+  5  = 00000101
++ 3  = 00000011
+----------------
+       00001000 = 8
+✔ Works perfectly using only adders
+What about subtraction?
+We want:
+5 - 3
+Instead of building a separate subtraction circuit, we convert it to:
+5 + (-3)
+👉 So the real problem is:
+How do we represent -3 so addition still works?
+2’s complement trick
+To get -3:
+Start with 3
+00000011
+Invert bits
+11111100
+Add 1
+11111101
+👉 This is -3 in 2’s complement
+
+Now add using SAME hardware
+   00000101   (5)
++  11111101   (-3)
+------------------
+ 1 00000010
+Ignore overflow carry:
+
+00000010 = 2 ✔
+🚨 Key Insight
+👉 The CPU did NOT:
+    check sign
+    do subtraction
+    use special logic
+👉 It just did binary addition
+
+Even overflow becomes simple
+Example:
+2147483647 + 1
+01111111...1111
++00000000...0001
+----------------
+10000000...0000 = -2147483648
+👉 No special handling
+👉 Just natural wrap-around
+
+Think of numbers as a circle (mod 2³²):
+... -3 → -2 → -1 → 0 → 1 → 2 → 3 ...
+👉 2’s complement places numbers so that:
+moving forward = addition
+moving backward = subtraction
+same circuit handles both
+
+
+n 10
+Binary : 1010       // 8421
+
+Left shift:
+    shifting bits to left and fill zero at right
+n << 1
+    1010 << 1
+    10100   -> 20
+n << 2
+    1010 << 2
+    101000  -> 40
+General left shift rule
+    n << k
+        n * (2^k)   -   if result overflows then ignores
+    10 << 2
+        10 * (2^2)  -> 40
+Left most bit is the sign bit, in left shift we are shifting bits left and adding zero at right, so no need to handle sign bit.
+if left most bit is 0 and one bit before left most is 1 then if we do left shift once then the positive number will automatically becomes negative.
+for 2147483647, binary is 01111111111111111111111111111111 and if we shit it to one time left
+    11111111111111111111111111111110 - here left most bit is 1, so this is negative and its value is -2
+    2's complement of -2 is 11111111111111111111111111111110
+    this is why max value of integer is 2147483647 and also this is the reason there is no <<< - sign specific operator in left shift
+    we are clear that we need to add 0 at right, sign bit is automatically handled.
+    In right shift scenario we will move bits right, so left most bit will be empty and we need to fill it, 
+    if we fill it with 0 then result will be positive and if we fill with 1 then resutl will be negative.
+    thats is why left shift has no <<< and right shift has >>>.
+
+Right shift operator:
+>>	Signed right shift (arithmetic)	Preserves sign
+>>>	Unsigned right shift (logical)	Fills with 0
+
+Signed right shift >>:
+    n >> k 
+        here n is right shifted k times then left bits are filled with sign bits. if we shift 3 times then left most 3 bits are filled with sign bits.(1 for negative and 0 for positive)
+Original:   11111000   (-8)
+Shift >> 2:
+Step 1 →    11111100
+Step 2 →    11111110
+Final:
+11111110 (-2)
+👉 Leftmost 2 bits filled with 1
+
+Original:   00001000   (8)
+Shift >> 2:
+Step 1 →    00000100
+Step 2 →    00000010
+Final:
+00000010 (2)
+👉 Leftmost 2 bits filled with 0
+
+n>>1 - it will work like n divide by 2.
+n>>k - it will work like n divide by 2^k.
+    x >> k = x / (2^k)
+
+Unsigned right shift (>>>)
+    Shift bits to the right and Fill leftmost bits with 0.
+int x = -8;
+int y = x >>> 1;
+Binary:
+x = 11111111 11111111 11111111 11111000
+After shift:
+01111111 11111111 11111111 11111100
+Result:
+2147483644
+
+Shift count is masked:
+x >> n   → n % 32
+So:
+x >> 33 == x >> 1
+
+
+Bitwise operator
+& - both are 1 then 1 else 0
+| - both are 0 then 0 else 1
+~ - NOT - flip all bits
+^ - XOR - 1 if the number of 1s is odd, otherwise 0
+
+for multiplying 2 to a number we can use <<1
+for dividing 2 to a number we can use >>1

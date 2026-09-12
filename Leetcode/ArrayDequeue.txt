@@ -1,0 +1,342 @@
+Java’s ArrayDeque is a **resizable-array implementation of a double-ended queue (Deque)**.
+
+Think of it as:
+
+> A structure where you can efficiently add/remove from **both front and back**.
+
+It’s one of the **most useful Java collections for DSA**.
+
+---
+
+# 1. What is ArrayDeque?
+
+`ArrayDeque` stands for:
+
+```text
+Array + Double Ended Queue
+```
+
+It allows:
+
+* Insert at front
+* Insert at rear
+* Remove from front
+* Remove from rear
+
+Unlike a normal queue:
+
+```text
+Queue = FIFO only
+ArrayDeque = FIFO + LIFO + both ends
+```
+
+---
+
+# 2. Why use ArrayDeque?
+
+### Better than:
+
+* `Stack` → old / synchronized / slower
+* `LinkedList` → more memory overhead
+
+### Benefits:
+
+* Fast operations: O(1) amortized
+* No thread sync overhead
+* Very efficient for DSA
+
+---
+
+# 3. Declaration
+
+## As Queue:
+
+```java
+Deque<Integer> deque = new ArrayDeque<>();
+```
+
+## As Stack:
+
+```java
+Deque<Integer> stack = new ArrayDeque<>();
+```
+
+---
+
+# 4. Basic Operations
+
+---
+
+## Add elements
+
+### Add at rear
+
+```java
+deque.offerLast(10);
+deque.offerLast(20);
+```
+
+### Add at front
+
+```java
+deque.offerFirst(5);
+```
+
+Now:
+
+```text
+[5, 10, 20]
+```
+
+---
+
+## Remove elements
+
+### Remove front
+
+```java
+deque.pollFirst();
+```
+
+### Remove rear
+
+```java
+deque.pollLast();
+```
+
+---
+
+## Peek
+
+### Front
+
+```java
+deque.peekFirst();
+```
+
+### Rear
+
+```java
+deque.peekLast();
+```
+
+---
+
+# 5. Full Example
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Deque<Integer> deque = new ArrayDeque<>();
+
+        deque.offerLast(10);
+        deque.offerLast(20);
+        deque.offerFirst(5);
+
+        System.out.println(deque); // [5, 10, 20]
+
+        System.out.println(deque.peekFirst()); // 5
+        System.out.println(deque.peekLast());  // 20
+
+        deque.pollFirst();
+        System.out.println(deque); // [10, 20]
+
+        deque.pollLast();
+        System.out.println(deque); // [10]
+    }
+}
+```
+
+---
+
+# 6. Using ArrayDeque as Queue
+
+FIFO:
+
+```java
+Queue<Integer> q = new ArrayDeque<>();
+
+q.offer(10);
+q.offer(20);
+
+System.out.println(q.poll()); // 10
+```
+
+---
+
+# 7. Using ArrayDeque as Stack (Recommended)
+
+LIFO:
+
+```java
+Deque<Integer> stack = new ArrayDeque<>();
+
+stack.push(10);
+stack.push(20);
+
+System.out.println(stack.pop()); // 20
+```
+
+Equivalent:
+
+```text
+push() = addFirst()
+pop()  = removeFirst()
+```
+
+---
+
+# 8. Time Complexity
+
+| Operation   | Time |
+| ----------- | ---- |
+| addFirst    | O(1) |
+| addLast     | O(1) |
+| removeFirst | O(1) |
+| removeLast  | O(1) |
+| peek        | O(1) |
+
+Very efficient.
+
+---
+
+# 9. Internal Working
+
+Internally:
+
+* Uses circular dynamic array
+* Maintains head and tail pointers
+* Resizes when full
+
+Like:
+
+```text
+[ _, _, 10, 20, 30, _, _ ]
+      ↑           ↑
+    head         tail
+```
+
+So:
+
+* no shifting needed
+* front/rear both efficient
+
+---
+
+# 10. Important Limitation
+
+❌ Does NOT allow null elements
+
+```java
+deque.offer(null); // throws exception
+```
+
+Because:
+
+* null used internally for empty checks
+
+---
+
+# 11. DSA Use Cases
+
+Used in:
+
+* BFS traversal
+* Monotonic queue
+* Sliding window max
+* Stack problems
+* LRU cache
+* Parentheses matching
+* Tree traversal
+
+---
+
+# 12. Interview Tip
+
+### For Stack:
+
+Use:
+
+```java
+Deque<Integer> stack = new ArrayDeque<>();
+```
+
+Instead of:
+
+```java
+Stack<Integer>
+```
+
+### For Queue:
+
+Use:
+
+```java
+Queue<Integer> q = new ArrayDeque<>();
+```
+
+---
+
+# Quick Summary
+
+```text
+ArrayDeque:
+Fast
+Resizable
+Double ended
+Better than Stack / LinkedList for DSA
+```
+
+### Important methods:
+
+```java
+offerFirst()
+offerLast()
+pollFirst()
+pollLast()
+peekFirst()
+peekLast()
+```
+
+If you'd like, I can also explain:
+
+* ArrayDeque vs LinkedList
+* Circular queue internals
+* Monotonic queue pattern
+
+Important Difference
+offer() vs add()
+offer():
+queue.offer(10);
+returns false if fails
+add():
+queue.add(10);
+throws exception if fails
+
+👉 Prefer:
+
+offer()
+poll() vs remove()
+poll():
+queue.poll();
+returns null if empty
+remove():
+queue.remove();
+throws exception if empty
+
+👉 Prefer:
+
+poll()
+peek() vs element()
+peek():
+queue.peek();
+returns null if empty
+element():
+queue.element();
+exception if empty
+
+👉 Prefer:
+
+peek()
