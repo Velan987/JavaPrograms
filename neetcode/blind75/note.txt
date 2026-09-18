@@ -1,1 +1,4 @@
 https://docs.google.com/spreadsheets/d/1A2PaQKcdwO_lwxz9bAnxXnIQayCouZP6d-ENrBz_NXc/edit?pli=1&gid=0#gid=0
+
+this blind75 misses some programs - those will be there in leetcode and hellowinterview packages.
+Before starting neetcode package, understand hellowinterview and leetcode packages.

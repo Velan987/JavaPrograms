@@ -8,6 +8,8 @@ public boolean canJump(int[] nums) {
         if (i > maxReach) {
             return false;
         }
+        // i + nums[i] -> i will tell from position and nums[i] will tell how many posittion we can jump
+        // so i + nums[i] will tell from that iteration we can reach upto that position 
         maxReach = Math.max(maxReach, i + nums[i]);
     }
     return true;
@@ -63,7 +65,7 @@ We continue... max_reach = 4 >= n-1 = 4. Answer: true!
 
 When It Fails
 What if we can't reach the end? Consider nums = [3, 2, 1, 0, 4]:
-At i=3:
+At i=0:
 max_reach = 3
 nums[3] = 0, can't go further
 Stuck! Return false

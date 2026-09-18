@@ -13,8 +13,9 @@ public class NumberofIsland {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 // iterate each cell, if that particular cell is land then increment the count and invoke dfs to check adjacent lands
-                // if dfs we will mark the cell as water, so we wont count same land as part of different island's part.
-                // will start with one cell if it is land then island count increased and will mark that land and all its adjacent lands as water, so that it wont be part of another island
+                // in dfs we will mark the cell as water, so we wont count same land as part of different island's part.
+                // will start with one cell if it is land then island count increased and will mark that land and all its adjacent lands as water, 
+                // so that it wont be part of another island
                 if (grid[i][j] == 1) {
                     count++;
                     dfs(grid, i, j, rows, cols);
