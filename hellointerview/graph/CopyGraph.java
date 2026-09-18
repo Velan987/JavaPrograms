@@ -39,7 +39,9 @@ public class CopyGraph {
 }
 
 /**
- * Given a reference to a variable node which is part of an undirected, connected graph, write a function that returns an adjacency list representation of the graph in dictionary form. The keys of the adjacency list are the values of the nodes, and each value is a list of that node's neighbors' values.
+ * Given a reference to a variable node which is part of an undirected, connected graph, 
+ * write a function that returns an adjacency list representation of the graph in dictionary form. 
+ * The keys of the adjacency list are the values of the nodes, and each value is a list of that node's neighbors' values.
 
 This isn't a deep copy of the node objects. You're converting the node-and-pointers structure into a dictionary adjacency list that describes the same graph.
 
