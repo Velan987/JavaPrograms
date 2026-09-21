@@ -7,6 +7,14 @@ import java.util.List;
 public class CombinationSum {
 
     /**
+     * Backtracking - The pattern of exploring choices, making a decision, recursing, and then undoing the decision
+     * At every step, we:
+        1. Choose a candidate.
+        2. Subtract it from the remaining target.
+        3. Continue choosing numbers.
+        4. If the remaining target becomes 0, save the combination.
+        5. Undo the latest choice and try another candidate.
+     * 
      * Finds all unique combinations whose elements add up to the target.
      * Each candidate can be selected an unlimited number of times.
      *
@@ -21,8 +29,7 @@ public class CombinationSum {
 
         /*
          * Sorting is not required for correctness, but it allows us to stop
-         * searching as soon as a candidate becomes larger than the remaining
-         * target.
+         * searching as soon as a candidate becomes larger than the remaining target.
          */
         Arrays.sort(candidates);
 
@@ -33,13 +40,7 @@ public class CombinationSum {
          * remainingTarget tracks how much more must be added.
          * currentCombination stores the combination currently being built.
          */
-        backtrack(
-                candidates,
-                target,
-                0,
-                new ArrayList<>(),
-                result
-        );
+        backtrack(candidates, target, 0, new ArrayList<>(), result);
 
         return result;
     }
@@ -53,17 +54,11 @@ public class CombinationSum {
      * @param currentCombination combination currently being constructed
      * @param result            collection of all valid combinations
      */
-    private static void backtrack(
-            int[] candidates,
-            int remainingTarget,
-            int startIndex,
-            List<Integer> currentCombination,
-            List<List<Integer>> result) {
+    private static void backtrack(int[] candidates,int remainingTarget,int startIndex,List<Integer> currentCombination,List<List<Integer>> result) {
 
         /*
          * Base case:
-         * A remaining target of zero means the selected numbers add up
-         * exactly to the original target.
+         * A remaining target of zero means the selected numbers add up exactly to the original target.
          */
         if (remainingTarget == 0) {
             /*
@@ -97,15 +92,9 @@ public class CombinationSum {
 
             /*
              * Recursively continue with index i, not i + 1.
-             * Passing i allows the same candidate to be selected again.
+             * because the same candidate may be selected an unlimited number of times.
              */
-            backtrack(
-                    candidates,
-                    remainingTarget - candidate,
-                    i,
-                    currentCombination,
-                    result
-            );
+            backtrack(candidates, remainingTarget - candidate, i, currentCombination, result);
 
             /*
              * Undo the previous choice so the loop can try another candidate.
