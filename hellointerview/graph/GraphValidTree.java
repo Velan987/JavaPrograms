@@ -32,6 +32,8 @@ public class GraphValidTree {
             graph.get(second).add(first);
         }
 
+        // every node should be visited once and only once, if there is a cycle then it will be visited more than once
+        // if there is a disconnected graph then some nodes will not be visited
         boolean[] visited = new boolean[n];
 
         dfs(0, graph, visited);
@@ -46,10 +48,7 @@ public class GraphValidTree {
         return true;
     }
 
-    private static void dfs(
-            int node,
-            List<List<Integer>> graph,
-            boolean[] visited) {
+    private static void dfs(int node, List<List<Integer>> graph, boolean[] visited) {
 
         if (visited[node]) {
             return;

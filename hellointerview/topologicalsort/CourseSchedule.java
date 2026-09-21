@@ -14,7 +14,7 @@ public class CourseSchedule {
         // this will store dependent for each course
         // for example to take English and Maths I should complete Tamil first, also to take English I should complete Hindi first
         // prerequisites will be like [ [E, T], [M, T], [E, H]]
-        // English and Maths dependending on Tamil and English is depending on Hindi
+        // English and Maths dependending on Tamil and English is also depending on Hindi
         // graph = {T: [E,M], H: [E]}
         // indegree of T and E is 0, both will go to queue and if T goes first, after dequeue E and M's indegree will be decremented
         Map<Integer, List<Integer>> graph = new HashMap<>();
@@ -55,7 +55,7 @@ public class CourseSchedule {
             // mark one course is taken
             count++;
             // if one course is taken then we should reduce the indegree for the dependent(neighbor) courses
-            for(int neighbor: graph.getOrDefault(course,    new ArrayList<>())){
+            for(int neighbor: graph.getOrDefault(course, new ArrayList<>())){
                 indegrees[neighbor]--;
                 // if indegree is 0, that is there is no dependency then add it to queue
                 if(indegrees[neighbor] == 0){
