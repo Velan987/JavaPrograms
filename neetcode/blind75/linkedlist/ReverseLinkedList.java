@@ -14,10 +14,28 @@ public class ReverseLinkedList {
     When curr becomes null, the list is fully reversed, and prev points to the new head.
      */
     public ListNode reverseList(ListNode head) {
-        // Initially there will be no previous node
+        /**
+         * [3,4,5]
+         * Initially there will be no previous node
+         */
         ListNode prev = null;
         ListNode curr = head;
-
+        /**
+         * iteration:1
+         * prev = null, curr = 3, nextNode = 4
+         * curr.next = prev (3->null)
+         * prev = 3, curr = 4  (4->5->null)
+         * 
+         * iteration:2
+         * prev = 3, curr = 4, nextNode = 5
+         * curr.next = prev (4->3->null)
+         * prev = 4, curr = 5 (5->null)
+         * 
+         * iteration:3
+         * prev = 4, curr = 5, nextNode = null
+         * curr.next = prev (5->4->3->null)
+         * prev = 5, curr = null
+         */
         while(curr != null){
             ListNode nextNode = curr.next;
             curr.next = prev;
