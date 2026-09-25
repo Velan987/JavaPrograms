@@ -77,6 +77,7 @@ You ALWAYS delete "slow.next" → no special case ✅
         }
         //remove nth node
         slow.next=slow.next.next;
+        // should not return head because head might be deleted, so we return dummy.next which is the new head of the list
         return dummy.next;
     }
 
