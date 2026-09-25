@@ -45,11 +45,14 @@ public class ReorderLinkedList {
         slow.next = null;
 
         // Reverse second half (ReverseLinikedList.java), prev will be the head of reversed list
+        // initially there will be no previous node
         ListNode prev = null;
         ListNode cur = secondHalfHead;
         while(cur != null){
             ListNode nextNode = cur.next;
+            // in next iteration current node will become previous
             cur.next = prev;
+            // move previous and current nodes to next pointer
             prev = cur;
             cur = nextNode;
         }
@@ -59,6 +62,7 @@ public class ReorderLinkedList {
         ListNode secondHalfNode = prev;
         
         while(secondHalfNode != null){
+            // store next pointer of first half and second half nodes
             ListNode tmp1 = firstHalfNode.next;
             ListNode tmp2 = secondHalfNode.next;
 
@@ -68,6 +72,7 @@ public class ReorderLinkedList {
              * 
              * in next iteration first halfnode will be 1 and secondhalf node will be 4
              */
+            // link first half node to second half node and second half node to first half node's next pointer
             firstHalfNode.next = secondHalfNode;
             secondHalfNode.next = tmp1;
 
